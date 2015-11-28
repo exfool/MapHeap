@@ -1,29 +1,31 @@
-package com.company;
+package com.company.MapHeap;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class Heap <T extends Comparable<T>>
+public class MapHeap <Key extends Comparable<Key>, Value>
 {
-    private ArrayList<T> data;
-    private int          size;
-    // comparator for Min Heap
-    public Comparator<T> comparator = new Comparator<T>()
+
+
+    private ArrayList<Pair<Key, Value>> data;
+    private int                         size;
+    // comparator for <key, value> Min MapHeal
+    public Comparator<Key> comparator = new Comparator<Key>()
     {
         @Override
-        public int compare(T o1, T o2)
+        public int compare(Key o1, Key o2)
         {
             return o1 == null ? 1 : o2 == null ? -1 : o1.compareTo(o2) == 0 ? -1 : o1.compareTo(o2);
         }
     };
 
     /**
-     * Heap with default comparator
+     * MapHeal with default comparator
      * comparator used compateTo method
      */
-    public Heap()
+    public MapHeap()
     {
-        this.data = new ArrayList<T>();
+        this.data = new ArrayList<Pair<Key, Value>>();
         this.size = 0;
     }
 
@@ -32,9 +34,9 @@ public class Heap <T extends Comparable<T>>
      *
      * @param comparator for compare elements T
      */
-    public Heap(Comparator<T> comparator)
+    public MapHeap(Comparator<Key> comparator)
     {
-        this.data = new ArrayList<T>();
+        this.data = new ArrayList<Pair<Key, Value>>();
         this.size = 0;
         this.comparator = comparator;
     }
@@ -45,9 +47,9 @@ public class Heap <T extends Comparable<T>>
      * @param maxSize    capacity of array
      * @param comparator for compare elements T
      */
-    public Heap(int maxSize, Comparator<T> comparator)
+    public MapHeap(int maxSize, Comparator<Key> comparator)
     {
-        this.data = new ArrayList<T>(maxSize);
+        this.data = new ArrayList<Pair<Key, Value>>(maxSize);
         this.size = 0;
         this.comparator = comparator;
     }
@@ -57,7 +59,7 @@ public class Heap <T extends Comparable<T>>
      *
      * @param arrayList array for insertion
      */
-    public Heap(ArrayList<T> arrayList, Comparator<T> comparator)
+    public MapHeap(ArrayList<Pair<Key, Value>> arrayList, Comparator<Key> comparator)
     {
         this.comparator = comparator;
         this.data = arrayList; //
@@ -109,14 +111,14 @@ public class Heap <T extends Comparable<T>>
      * @param position of data
      * @return element of data
      */
-    private T get(int position)
+    private Key get(int position)
     {
         if (position < 0 || position >= size)
         {
             return null;
         } else
         {
-            return data.get(position);
+            return data.get(position).key;
         }
     }
 
@@ -128,7 +130,7 @@ public class Heap <T extends Comparable<T>>
      */
     private void swap(int fpos, int spos)
     {
-        T first = data.get(fpos);
+        Pair<Key, Value> first = data.get(fpos);
         data.set(fpos, data.get(spos));
         data.set(spos, first);
     }
@@ -179,13 +181,13 @@ public class Heap <T extends Comparable<T>>
     }
 
     /**
-     * Inserting the element to Heap
+     * Inserting the element to MapHeal
      *
-     * @param element for inserting
+     * @param key & value for inserting
      */
-    public void insert(T element)
+    public void insert(Key key, Value value)
     {
-        data.add(size++, element);
+        data.add(size++, new Pair<Key, Value>(key, value));
         siftUp(size - 1);
 
     }
@@ -196,9 +198,9 @@ public class Heap <T extends Comparable<T>>
      *
      * @return root T element
      */
-    public T removeTop()
+    public Value removeTop()
     {
-        T popped = data.get(0);
+        Value popped = data.get(0).value;
         data.set(0, data.get(size - 1));
         size--;
         siftDown(0);
@@ -210,9 +212,9 @@ public class Heap <T extends Comparable<T>>
      *
      * @return get top T element
      */
-    public T showTop()
+    public Value showTop()
     {
-        return data.get(0);
+        return data.get(0).value;
     }
 
 
@@ -221,10 +223,10 @@ public class Heap <T extends Comparable<T>>
      *
      * @return sorted ArrayList T
      */
-    public ArrayList<T> getSorted()
+    public ArrayList<Value> getSorted()
     {
-        ArrayList<T> sortedResult = new ArrayList<T>();
-        int          count        = size;
+        ArrayList<Value> sortedResult = new ArrayList<Value>();
+        int              count        = size;
         for (int i = 0; i < count; i++)
         {
             sortedResult.add(i, this.removeTop());
