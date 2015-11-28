@@ -1,7 +1,6 @@
 # MapHeap
-Implementation of:
-<Key, Value> Heap (Map Heap),
-<Value> Heap.
+Implementation of: 
+&lt;Key, Value&gt; Heap (Map Heap), 
+&lt;Value&gt; Heap. 
 
-Base on generics and comporators
-(The default comporator sorted by ASC)
+Base on generics and comporators (The default comporator sorted by ASC)
